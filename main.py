@@ -1,9 +1,8 @@
-from tkinter import *
-from ball import *
-from wall import *
-from block import *
-from paddle import *
-from gameEntity import *
+from tkinter import Tk, Frame, Canvas
+from ball import Ball
+from wall import Wall
+from block import Block
+from paddle import Paddle
 
 guiHeight = 700
 guiWidth = 500
@@ -42,6 +41,12 @@ def main():
   gui.geometry(f"{guiWidth}x{guiHeight}")
   gui.title("Breakout")
 
+  # Bring to front
+  gui.lift()
+  gui.attributes("-topmost", True)
+  gui.attributes("-topmost", True)
+  gui.after_idle(gui.attributes,'-topmost',False)
+
   frame = Frame(gui, width=guiWidth, height=guiHeight)
 
   canvas = Canvas(frame, width=guiWidth, height=guiHeight, bg='black')
@@ -54,11 +59,6 @@ def main():
   frame.bind("<Right>", lambda event: movePaddle(event, paddle, canvas, "right"))
   frame.pack()
   frame.focus_set()
-
-  # Bring to front
-  gui.lift()
-  gui.attributes("-topmost", True)
-  gui.after_idle(gui.attributes,'-topmost',False)
 
   # While the ball is in play
   while canvas.coords(ball.canvasEntity)[1] < canvas.coords(paddle.canvasEntity)[1] - paddle.height + 1:
